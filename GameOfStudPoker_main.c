@@ -1,5 +1,5 @@
 //
-//  GameOfStudPoker.c
+//  GameOfStudPoker_main.c
 //  
 
 
