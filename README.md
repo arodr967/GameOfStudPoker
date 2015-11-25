@@ -7,7 +7,7 @@ As a team, we collaborated in perfecting the DeckOfCards program for the continu
 
 ---
 
-### __References__ ###
+### ___References___ ###
 
 - http://www.pokerlistings.com/poker-hand-ranking
 - http://www.pokerlistings.com/poker-rules-7-card-stud
