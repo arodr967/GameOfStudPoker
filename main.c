@@ -23,7 +23,6 @@ int main(int argc, const char * argv[]) {
     srand((unsigned)time(&t));               // generate seed for random value
     
     /* validation of user input. No more than 3 args. */
-    
     if( argc == ARGNUM ){
         
         /* parse the arguments to integer values
@@ -48,6 +47,7 @@ int main(int argc, const char * argv[]) {
             printDeck(pointer);
             deal(pointer, numCardsPerHand, numOfPlayers);
             sortHands(pointer, numCardsPerHand, numOfPlayers);
+			rankHands(pointer, numCardsPerHand, numOfPlayers);
         }
     }else{
         /* here as specified, display error and terminate due to incorrect number of args entered by user */
