@@ -26,6 +26,7 @@
 #define TRUE 1
 #define FALSE 0
 
+/*
 // suit symbols cross platform
 #if defined(_WIN32) || defined(_MSDOS_)
 #define SPADE	"S"
@@ -38,6 +39,13 @@
 #define HEART	"\xe2\x99\xa5"
 #define DIAMOND	"\xe2\x99\xa6"
 #endif
+*/
+
+/* Display the suits with their letter. */
+#define SPADE	"S"
+#define CLUB	"C"
+#define HEART	"H"
+#define DIAMOND	"D"
 
 /************************************
  Simulates a card with suit and value.
@@ -66,9 +74,7 @@ struct players{
 /***********************************
  Prototypes.
  ***********************************/ 
-
-enum ranks {NONE= 0, HIGH_GUARD, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND, STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH, ROYAL_FLUSH};
- 
+enum ranks { NONE = 0, ROYAL_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIR, ONE_PAIR, HIGH_GUARD };
 int validateInput(int numberOfCards, int numberOfPlayers);
 char getValue(int type);
 void printDeck(struct deck *newDeck);
@@ -80,5 +86,8 @@ void displayHands(struct card *players, int numOfPlayers, int numCardsPerHand);
 struct players getHand(int cnum, struct deck *deckpointer, int *handpointer);
 void sortHands( struct deck *deckptr, int pnum, int cnum);
 void sort(struct card *player, int numberOfCards, int players, int passnum);
+void rankHands(struct deck *theDeck, int numberOfCards, int numberOfPlayers);
+int isRoyalFlush(struct card *cards, int numberOfCards);
+int isHighCard();
 
 #endif /* suit_h */
