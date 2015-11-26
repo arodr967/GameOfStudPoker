@@ -82,7 +82,6 @@ struct deck createDeck(){
 /*************************************
  Output Deck to screen.
  *************************************/
-
 void printDeck(struct deck *newDeck){
     int i, j,index = 0, temp;
     char special;
@@ -160,19 +159,19 @@ void deal( struct deck *deckptr, int cnum, int pnum){
 /*************************************
  Display players hands.
  *************************************/
-void displayHands(struct card *players, int num1, int num2){
+void displayHands(struct card *players, int cnum, int pnum){
     
     /* variables used */
     int temp, player, playerNum, currentCard = 0;
     char special;
     
     /* here, traverse the hands and display them all */
-    for (playerNum = 1; playerNum <= num2; playerNum++) {
+	for (playerNum = 1; playerNum <= pnum; playerNum++) {
         
         
         printf("Player %d 's cards:\n", playerNum);
         
-        for (player = 0; player < num1; player++) {
+		for (player = 0; player < cnum; player++) {
             
             temp = players[currentCard].value;  /* for suits */
             
@@ -189,6 +188,7 @@ void displayHands(struct card *players, int num1, int num2){
         printf("\n");
     }
 }
+
 /*************************************
  Return the hands.
  *************************************/
@@ -204,11 +204,11 @@ struct players getHand(int cnum, struct deck *deckpointer, int *handpointer){
     }
     return player;
 }
+
 /**************************************
  Goes through each player's hands
  and sorts them in ascending order.
  **************************************/
-
 void sortHands( struct deck *deckptr, int cnum, int pnum){
     
     
@@ -245,6 +245,7 @@ void sortHands( struct deck *deckptr, int cnum, int pnum){
     printf("\n");
     
 }
+
 /**************************************
  SelectionSort helper function.
  **************************************/
@@ -275,4 +276,26 @@ void sort(struct card *player, int numberOfCards, int numplayers, int passnum){
     }
     
     return;
+}
+
+/**************************************
+Function which will determine what type of
+hand each player has and ranks them. -Alicia
+**************************************/
+void rankHands(struct deck *theDeck, int numberOfCards, int numberOfPlayers)
+{
+	int pnum;
+	struct card *cards[numberOfCards];
+
+	//for (pnum = 1; pnum <= numberOfPlayers; pnum++)
+	//{
+	if (isRoyalFlush(*cards, numberOfCards))
+	{
+		printf("Player %d, you're the winner!\n", pnum);
+	}
+	else if (isHighCard())
+	{
+		printf("Player %d, you're the winner!\n", pnum);
+	}
+	//}
 }
