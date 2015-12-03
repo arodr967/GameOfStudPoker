@@ -17,7 +17,7 @@ int main(int argc, const char * argv[]) {
     int max, numCardsPerHand, numOfPlayers, i, j, cardsPtr = 0, *ptr = &cardsPtr;
     struct deck thedeck, *pointer = &thedeck;
     thedeck = createDeck();
-    struct players gamer [MAX_NUM_PLAYERS];
+    struct player gamer[MAX_NUM_PLAYERS];
     time_t t;
     
     srand((unsigned)time(&t));               // generate seed for random value
@@ -47,7 +47,7 @@ int main(int argc, const char * argv[]) {
             printDeck(pointer);
             deal(pointer, numCardsPerHand, numOfPlayers);
             sortHands(pointer, numCardsPerHand, numOfPlayers);
-			rankHands(pointer, numCardsPerHand, numOfPlayers);
+			rankHands(gamer, numCardsPerHand, numOfPlayers);
         }
     }else{
         /* here as specified, display error and terminate due to incorrect number of args entered by user */
