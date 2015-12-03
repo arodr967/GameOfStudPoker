@@ -129,52 +129,61 @@ void shuffle(struct deck *theDeck){
  specific number of players.
  **************************************/
 void deal( struct deck *deckptr, int cnum, int pnum){
-    
+
     /* variables used */
-    int cardNum, card = 0, currentCard = 0;
+    int cardNum, card, currentCard = 0;
     
     /* simulates hands specified by user */
     struct card *players[cnum];
     
-    printf("\nYou have specified %d player(s) with %d card(s) each..\n", pnum, cnum);
+    printf("\nYou have specified %d hand(s) with %d card(s) each..\n", pnum, cnum);
     printf("\nDealing deck...\n\n");
     
     for (cardNum = 0; cardNum < cnum ; cardNum++) {
-        
-        /* all cards go to single player */
-        if (pnum == DECK_SIZE-1) {
-            
-            for (; card < pnum; card++) {
-                players[card] = &deckptr->cards[currentCard];
-                currentCard++;
-            }
-        }else{
+        printf("%d",cardNum);
             players[cardNum] = &deckptr->cards[currentCard];
             currentCard++;
-        }
     }
     displayHands(*players, cnum, pnum); /* print players hands */
+}
+
+struct players deal2 (int numberOfCards, struct deck *deckptr) {
+    
+    
+    struct players newPlayer;
+    int i;
+    
+    printf("\nDealing deck...\n\n");
+    
+    for (i = 0; i < numberOfCards; i++ ) {
+        newPlayer.hand[i] = deckptr->cards[deckptr->numCards];
+        deckptr->numCards++;
+        newPlayer.cardsInHand++;
+    }
+    
+    return newPlayer;
+    
 }
 
 /*************************************
  Display players hands.
  *************************************/
 void displayHands(struct card *players, int cnum, int pnum){
-    
+
     /* variables used */
     int temp, player, playerNum, currentCard = 0;
     char special;
     
     /* here, traverse the hands and display them all */
-	for (playerNum = 1; playerNum <= pnum; playerNum++) {
+    for (playerNum = 1; playerNum <= pnum; playerNum++) {
         
         
         printf("Player %d 's cards:\n", playerNum);
         
-		for (player = 0; player < cnum; player++) {
-            
+        for (player = 0; player < cnum; player++) {
+        
             temp = players[currentCard].value;  /* for suits */
-            
+    
             if (temp == JACK || temp == QUEEN || temp == KING || temp == ACE)
             {
                 special = getValue(temp);   /* display appropriate suit */
@@ -187,6 +196,37 @@ void displayHands(struct card *players, int cnum, int pnum){
         }
         printf("\n");
     }
+}
+
+void displayHands2(struct players *currentPlayers, int numberOfCards, int pnum, int cnum) {
+    
+    /* variables used */
+    int temp, player, playerNum, currentCard = 0;
+    char special;
+    
+    /* here, traverse the hands and display them all */
+    for (playerNum = 0; playerNum < pnum; playerNum++) {
+        
+        
+        printf("Player %d 's cards:\n", playerNum);
+        
+        for (player = 0; player < cnum; player++) {
+            
+            temp = currentPlayers[playerNum].hand[player].value;  /* for suits */
+            
+            if (temp == JACK || temp == QUEEN || temp == KING || temp == ACE)
+            {
+                special = getValue(temp);   /* display appropriate suit */
+                
+                printf(" [ %2c%s ] ",special, currentPlayers[playerNum].hand[player].suit);
+            }else{
+                printf(" [ %2d%s ] ",currentPlayers[playerNum].hand[player].value , currentPlayers[playerNum].hand[player].suit);
+            }
+            currentCard++;
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
 
 /*************************************
@@ -208,18 +248,19 @@ struct players getHand(int cnum, struct deck *deckpointer, int *handpointer){
 /**************************************
  Goes through each player's hands
  and sorts them in ascending order.
+ -Paola
  **************************************/
 void sortHands( struct deck *deckptr, int cnum, int pnum){
-    
-    
+
+
     /* variables used */
-    int cardNum, card = 0, currentCard = 0, count = 0, passnum = 0, c = cnum;
+    int cardNum, card = 0, currentCard = 0, count = 0, passnum = 0, cardsPerPlayer = cnum; 
     
     /* simulates hands specified by user */
     struct card *players[cnum];
-    
+
     printf("\nSorting hands...\n\n");
-    
+
     for (cardNum = 0; cardNum < cnum ; cardNum++) {
         
         /* all cards go to single player */
@@ -235,46 +276,88 @@ void sortHands( struct deck *deckptr, int cnum, int pnum){
         }
         /* sort each player's hand */
         while(count < pnum){
-            sort(*players, c, pnum, passnum);
+            sort(*players, cardsPerPlayer, pnum, passnum);
             passnum += cnum;
-            c += cnum;
+            cardsPerPlayer += cnum;
             count++;
         }
-    }
+    }  
     displayHands(*players, cnum, pnum); /* print sorted hands */
+    printf("\n");
+
+}
+
+void sortHands2(struct players *currentPlayers, int cnum, int pnum) {
+    
+    /* variables used */
+    int cardNum, card = 0, currentCard = 0, count = 0, passnum = 0, cardsPerPlayer = cnum;
+    int i, j;
+    
+    /* simulates hands specified by user */
+    
+    printf("\nSorting hands...\n\n");
+    
+    for (i = 0; i < pnum ; i++) {
+        sort2(currentPlayers[i].hand, cnum);
+        
+    }
     printf("\n");
     
 }
 
+void sort2(struct card *hand, int numberOfCards) {
+    
+    
+    int i, j, minValueCard, minIndex;
+    struct card temp;
+    
+    for (i = 0; i < numberOfCards; i++) {
+        minValueCard = hand[i].value;
+        minIndex = i;
+        for (j = i + 1; j < numberOfCards; j++) {
+            
+            if (hand[j].value < minValueCard) {
+                minValueCard = hand[j].value;
+                minIndex = j;
+            }
+        }
+        temp = hand[i];
+        hand[i] = hand[minIndex];
+        hand[minIndex] = temp;
+    }
+    
+}
+
 /**************************************
- SelectionSort helper function.
+     SelectionSort helper function.
+      -Paola
  **************************************/
 void sort(struct card *player, int numberOfCards, int numplayers, int passnum){
-    
+
     /* variables used */
     int pass = passnum, k, min, minIndex, pnum = numplayers;
     struct card temp;
-    
+
     /* traverse and sort each hand by defining and comparing min values */
-    for (; pass < numberOfCards; pass++)
-    {
-        
-        min = player[pass].value;
-        minIndex = pass;
-        for (k = pass + 1; k < numberOfCards; k++)
+        for (; pass < numberOfCards; pass++)
         {
-            if (player[k].value < min)
+
+            min = player[pass].value;
+            minIndex = pass;
+            for (k = pass + 1; k < numberOfCards; k++)
             {
-                min = player[k].value;
-                minIndex = k;
+                if (player[k].value < min)
+                {
+                    min = player[k].value;
+                    minIndex = k;
+                }
             }
-        }
-        /* swap cards after finding min, placing all in ascending order */
-        temp = player[pass];
-        player[pass] = player[minIndex];
-        player[minIndex] = temp;
-    }
-    
+            /* swap cards after finding min, placing all in ascending order */
+            temp = player[pass];
+            player[pass] = player[minIndex];
+            player[minIndex] = temp;
+       }
+   
     return;
 }
 
