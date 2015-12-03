@@ -115,10 +115,89 @@ int isStraight(struct player gamer, int numberOfCards)
 /**************************************
 Determine whether a player has a High Card.
 A High Card is any hand that is not the ones 
-already defined. 
-----Not completed.----
+already defined. -Paola
 **************************************/
-int isHighCard()
-{
-	return HIGH_CARD;
+int hasHighCard(struct deck *deckptr, int numberOfCards, int numberOfPlayers){
+    
+    /* instance var's and LOOP 1 var's*/
+    int player = 1, cardValue, countCards = numberOfPlayers*numberOfCards, playersHighCard = 1, getCard;
+    int cNum = numberOfCards, count = 0;
+
+    /* compilation of each player's highest card in hand */
+    struct card HighCards[numberOfPlayers];
+
+    /* LOOP 2 var's*/
+    int pNum = 1;
+    int maxVal, tempVal;
+    int highestInHand[numberOfPlayers+1];
+
+    /* LOOP 1: make a list of each player's highest card in hand */
+    for(;player < numberOfPlayers; player++){
+        while (countCards > 0){
+            playersHighCard++;
+            if(playersHighCard == cNum){
+
+                /* current player's high card found here */
+                getCard = deckptr->cards[playersHighCard-1].value;   
+
+                HighCards[player] = deckptr->cards[playersHighCard-1];
+                printf("GETTING CARD %d\n", HighCards[player].value);
+                cNum+=numberOfCards;
+            }
+              countCards--;       
+        } 
+    }
+    printf("GETTING CARD %d\n", HighCards[1].value);
+    printf("GETTING CARD %d\n", HighCards[2].value);
+    printf("GETTING CARD %d\n", HighCards[3].value);
+    printf("GETTING CARD %d\n", HighCards[4].value);
+    printf("GETTING CARD %d\n", HighCards[5].value);
+
+    maxVal = HighCards[3].value;
+    printf("PLAYER 1 HIGH CARD VAL %d\n", maxVal );
+    printf("PLAYER 2 HIGH CARD VAL %d\n", maxVal );
+    printf("PLAYER 3 HIGH CARD VAL %d\n", maxVal );
+    printf("PLAYER 4 HIGH CARD VAL %d\n", maxVal );
+    printf("PLAYER 5 HIGH CARD VAL %d\n", maxVal );
+
+    /* LOOP 2*/
+    /* Which player has high card? */
+
+    // while(pNum < numberOfPlayers){
+
+    //     printf("HERE\n");
+    //     maxVal = HighCards[pNum]->value;
+    //     tempVal = HighCards[pNum+1]->value;
+
+    //     printf("PLAYER %d HAS CARD %d\n",pNum, maxVal);
+
+    //     printf("PLAYER %d HAS CARD %d\n",pNum+1, tempVal);
+    //     if(tempVal>maxVal){
+    //          maxVal = tempVal;    /* highest by far */
+    //     }
+    //     else{
+    //          highestInHand[pNum]=TRUE;
+    //     }
+    //     printf("%d\n", highestInHand[pNum]);
+
+    //     pNum++;
+    //     printf("HERE 2\n");
+    // }
+
+    return TRUE;    
+}
+
+int findHighCard(struct players *currentPlayers, int numberOfPlayers, int numberOfCards) {
+    int i, maxVal, playerWithHighCard = 0;
+    maxVal = currentPlayers[0].hand[numberOfCards-1].value;
+    
+    for (i = 1; i<numberOfPlayers; i++) {
+        if(currentPlayers[i].hand[numberOfCards-1].value > maxVal) {
+            maxVal = currentPlayers[i].hand[numberOfCards-1].value;
+            playerWithHighCard = i;
+        }
+    }
+    
+    printf("The max valued card is [%d] and Player [%d] has it\n", maxVal, playerWithHighCard);
+    return playerWithHighCard;
 }
