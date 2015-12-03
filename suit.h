@@ -64,17 +64,17 @@ struct deck{
 };
 
 /***********************************
- Players.
+ Player.
  ***********************************/
-struct players{
-    struct card hand[MAX_CARDS_PER_HAND];
+struct player{
+    card hand[MAX_CARDS_PER_HAND];
     int cardnum;
 };
 
 /***********************************
  Prototypes.
  ***********************************/ 
-enum ranks { NONE = 0, ROYAL_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIR, ONE_PAIR, HIGH_GUARD };
+enum ranks {ROYAL_FLUSH = 0, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIR, ONE_PAIR, HIGH_CARD, NONE};
 int validateInput(int numberOfCards, int numberOfPlayers);
 char getValue(int type);
 void printDeck(struct deck *newDeck);
@@ -86,8 +86,12 @@ void displayHands(struct card *players, int numOfPlayers, int numCardsPerHand);
 struct players getHand(int cnum, struct deck *deckpointer, int *handpointer);
 void sortHands( struct deck *deckptr, int pnum, int cnum);
 void sort(struct card *player, int numberOfCards, int players, int passnum);
-void rankHands(struct deck *theDeck, int numberOfCards, int numberOfPlayers);
-int isRoyalFlush(struct card *cards, int numberOfCards);
+void rankHands(struct players gamer[], int numberOfCards, int numberOfPlayers);
+int getMin(int ranks[]);
+int isRoyalFlush(struct player gamer, int numberOfCards);
 int isHighCard();
+int isFlush(struct player gamer, int numberOfCards);
+int isStraightFlush(struct player gamer, int numberOfCards);
+int isFlush(struct player gamer, int numberOfCards);
 
 #endif /* suit_h */
