@@ -10,12 +10,12 @@
 #include <stdlib.h>
 #include <time.h>           // for the use of rand() and srand()
 #define DECK_SIZE 52
-#define MAX_NUM_PLAYERS 7          // from 1 to 1 players allowd in Stud poker -Alicia
+#define MAX_NUM_PLAYERS 7          // from 1 to 1 players allowd in Stud poker
 #define PLAYER_MIN 1
-#define MAX_CARDS_PER_HAND 5       // only 5 or 7 cards per hand. In this game we are choosing 5 -Alicia
-#define MIN_CARDS_PER_HAND 5	   // setting the min to also be 5 because it cannot be lower.	-Alicia
+#define MAX_CARDS_PER_HAND 5       // only 5 or 7 cards per hand. In this game we are choosing 5
+#define MIN_CARDS_PER_HAND 5	   // setting the min to also be 5 because it cannot be lower.
 #define NUM_SUITS 4
-#define NUM_VALUES 13		//Added the number of values -Alicia
+#define NUM_VALUES 13	
 #define JACK 11
 #define QUEEN 12
 #define KING 13
@@ -67,7 +67,7 @@ struct deck{
  Player.
  ***********************************/
 struct player{
-    card hand[MAX_CARDS_PER_HAND];
+    struct card hand[MAX_CARDS_PER_HAND];
     int cardnum;
 };
 
@@ -82,9 +82,12 @@ struct deck createDeck();
 int randValue();
 void shuffle(struct deck *theDeck);
 void deal( struct deck *thedeck, int numCardsPerHand, int numOfPlayers);
+struct players deal2 (int numberOfCards, struct deck *deckptr);          
 void displayHands(struct card *players, int numOfPlayers, int numCardsPerHand);
+void displayHands2(struct players *currentPlayers, int numberOfCards, int pnum, int cnum);
 struct players getHand(int cnum, struct deck *deckpointer, int *handpointer);
 void sortHands( struct deck *deckptr, int pnum, int cnum);
+void sortHands2(struct players *currentPlayers, int cnum, int pnum);
 void sort(struct card *player, int numberOfCards, int players, int passnum);
 void rankHands(struct players gamer[], int numberOfCards, int numberOfPlayers);
 int getMin(int ranks[]);
@@ -93,5 +96,7 @@ int isHighCard();
 int isFlush(struct player gamer, int numberOfCards);
 int isStraightFlush(struct player gamer, int numberOfCards);
 int isFlush(struct player gamer, int numberOfCards);
+int hasHighCard(struct deck *deckptr, int numberOfCards, int numberOfPlayers);
+int findHighCard(struct players *currentPlayers, int numberOfPlayers, int numberOfCards);
 
 #endif /* suit_h */
