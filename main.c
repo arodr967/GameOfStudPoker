@@ -17,7 +17,7 @@ int main(int argc, const char * argv[]) {
     int max, numCardsPerHand, numOfPlayers, i, j, cardsPtr = 0, *ptr = &cardsPtr;
     struct deck thedeck, *pointer = &thedeck;
     thedeck = createDeck();
-    struct player gamer[MAX_NUM_PLAYERS];
+    struct player thePlayers[MAX_NUM_PLAYERS];
     time_t t;
     
     srand((unsigned)time(&t));               // generate seed for random value
@@ -45,9 +45,24 @@ int main(int argc, const char * argv[]) {
             printf("\nThe shuffled deck:\n\n");
             shuffle(pointer);
             printDeck(pointer);
-            deal(pointer, numCardsPerHand, numOfPlayers);
-            sortHands(pointer, numCardsPerHand, numOfPlayers);
-			rankHands(gamer, numCardsPerHand, numOfPlayers);
+            //deal(pointer, numCardsPerHand, numOfPlayers);
+            //sortHands(pointer, numCardsPerHand, numOfPlayers);
+	    //rankHands(gamer, numCardsPerHand, numOfPlayers);
+	    
+	    for (i = 0; i < numOfPlayers; i++) {
+                thePlayers[i] = deal2(numCardsPerHand, pointer);
+            }
+            
+            displayHands2(thePlayers, numCardsPerHand, numOfPlayers, numCardsPerHand);
+            
+            //deal(pointer, numCardsPerHand, numOfPlayers);
+            //sortHands(pointer, numCardsPerHand, numOfPlayers);
+            sortHands2(thePlayers, numCardsPerHand, numOfPlayers);
+            displayHands2(thePlayers, numCardsPerHand, numOfPlayers, numCardsPerHand);
+            printDeck(pointer);
+	    //hasHighCard(pointer, numCardsPerHand, numOfPlayers);
+            findHighCard(thePlayers, numOfPlayers, numCardsPerHand);
+            
         }
     }else{
         /* here as specified, display error and terminate due to incorrect number of args entered by user */
