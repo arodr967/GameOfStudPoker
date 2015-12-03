@@ -280,22 +280,53 @@ void sort(struct card *player, int numberOfCards, int numplayers, int passnum){
 
 /**************************************
 Function which will determine what type of
-hand each player has and ranks them. -Alicia
+hand each player has and ranks them.
+-Alicia
 **************************************/
-void rankHands(struct deck *theDeck, int numberOfCards, int numberOfPlayers)
+void rankHands(struct player gamer[], int numberOfCards, int numberOfPlayers)
 {
 	int pnum;
-	struct card *cards[numberOfCards];
+	//struct card *cards[numberOfCards];
 
-	//for (pnum = 1; pnum <= numberOfPlayers; pnum++)
-	//{
-	if (isRoyalFlush(*cards, numberOfCards))
+	//create an array which will be used to check which player has the best hand
+	int playerCheck[numberOfPlayers + 1];
+
+	//traverse through the each players
+	for (pnum = 1; pnum <= numberOfPlayers; pnum++)
 	{
-		printf("Player %d, you're the winner!\n", pnum);
+		/* set the playercheck array with the minimum number for each player
+		   that is returned when checking what rank is it. */
+
+		/* e.g. ) so, playerCheck[1] is going to have
+		   the hand which is returned by applying all of the checks, 
+		   but it will get the minimum because that would be the best hand
+		   for that specific player... and so on.*/
+		playerCheck[pnum] = getMin([isRoyalFlush(gamer[pnum], numberOfCards)]);
 	}
-	else if (isHighCard())
+
+	//then here another for loop which will determine the winner.
+
+}
+
+/**************************************
+Function which will get an int array
+of all of the ranks, (which return ints), 
+and return the minimum of those ranks
+because that will be the best rank.
+-Alicia
+**************************************/
+int getMin(int ranks[])
+{
+	//int royalFlush, int straightFlush, int fourOfAKind, 
+	//int fullHouse, int flush, int straight, int threeOfAKind, int twoPair, int onePair
+	int min = NONE;
+	int i;
+
+	for (i = 0; i < 9; i++) //must create constant for 9. 9 is how many cards are being tested.
 	{
-		printf("Player %d, you're the winner!\n", pnum);
+		if (ranks[i] < min)
+			min = ranks[i];
 	}
-	//}
+
+	return min;
 }
